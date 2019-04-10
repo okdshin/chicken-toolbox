@@ -3,6 +3,11 @@ import sys
 import tempfile
 
 
+'''
+generate temp file containing stdin and print its name
+'''
+
+
 with tempfile.NamedTemporaryFile(delete=False) as tf:
     with open(tf.name, 'w') as f:
         f.write(sys.stdin.read())
