@@ -1,0 +1,9 @@
+#!python
+import sys
+import tempfile
+
+
+with tempfile.NamedTemporaryFile(delete=False) as tf:
+    with open(tf.name, 'w') as f:
+        f.write(sys.stdin.read())
+    print(tf.name)

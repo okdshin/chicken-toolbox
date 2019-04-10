@@ -1,0 +1,28 @@
+#!python
+import sys
+import argparse
+
+
+class ParamProcessor(argparse.Action):
+    def __call__(self, parser, namespace, values, option_strings=None):
+        param_dict = getattr(namespace, self.dest, [])
+        if param_dict is None:
+            param_dict = {}
+        for value in values:
+            k, v = value.split("=")
+            param_dict[k] = v
+            setattr(namespace, self.dest, param_dict)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    #parser.add_argument('template', help='Path to template file')
+    parser.add_argument('args', nargs='+', action=ParamProcessor)
+    args = parser.parse_args()
+    template = sys.stdin.read()
+    generated = template.format(**(args.args))
+    print(generated)
+
+
+if __name__ == '__main__':
+    main()
